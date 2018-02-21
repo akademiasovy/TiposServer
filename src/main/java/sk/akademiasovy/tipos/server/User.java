@@ -25,9 +25,10 @@ public class User {
         Random random=new Random();
 
         for(int i=0;i<40;i++){
-            text[i]=(char) (random.nextInt(26)+65);
+            text[i]=(char) (random.nextInt(26)+'A');
         }
         token=String.valueOf(text);
+
         System.out.println(token);
     }
 

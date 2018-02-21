@@ -2,9 +2,7 @@ package sk.akademiasovy.tipos.server.resources;
 
 
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import sk.akademiasovy.tipos.server.Credentials;
 import sk.akademiasovy.tipos.server.User;
@@ -28,8 +26,23 @@ public class Login {
             return "{}";
         }
         else{
-            return "{\"token\":\""+user.getToken()+"\"}";
+            String result;
+            result="{\"firstname\":\""+user.getFirstname()+"\" , ";
+            result+="\"lastname\":\""+user.getLastname()+"\" , ";
+            result+="\"email\":\""+user.getEmail()+"\" , ";
+            result+="\"login\":\""+user.getLogin()+"\" , ";
+            result+="\"token\":\""+user.getToken()+"\"}";
+            return result;
         }
 
+    }
+
+    @GET
+    @Path("/logout/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String logout(@PathParam("token")  String token){
+        MySQL mySQL = new MySQL();
+        mySQL.logout( token);
+        return "{}";
     }
 }

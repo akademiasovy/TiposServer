@@ -32,8 +32,9 @@ public class MySQL {
                  User user=new User(rs.getString("firstname"),rs.getString("lastname"),rs.getString("login"),rs.getString("email"));
                  query = "UPDATE tokens SET token=? WHERE idu=?";
                 ps = conn.prepareStatement(query);
-                ps.setInt(2,rs.getInt("id"));
                 ps.setString(1, user.getToken());
+                ps.setInt(2,rs.getInt("id"));
+
                 ps.executeUpdate();
                 System.out.println(ps);
                 return user;
@@ -43,5 +44,20 @@ public class MySQL {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void logout( String token) {
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, this.username, this.password);
+
+            String query = "UPDATE tokens SET token=\"\" where token like ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,token);
+            System.out.println(ps);
+            ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

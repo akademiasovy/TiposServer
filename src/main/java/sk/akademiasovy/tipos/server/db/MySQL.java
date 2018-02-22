@@ -1,5 +1,6 @@
 package sk.akademiasovy.tipos.server.db;
 
+import sk.akademiasovy.tipos.server.Registration;
 import sk.akademiasovy.tipos.server.User;
 
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
@@ -84,5 +85,67 @@ public class MySQL {
         }
 
         return true;
+    }
+
+    public void insertNewUserIntoDb(Registration registration) {
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, this.username, this.password);
+            String query = "INSERT INTO users(firstname, lastname, email, login, password) "+
+                    " VALUES (?,?,?,?,?)";
+            PreparedStatement ps= conn.prepareStatement(query);
+            ps.setString(1,registration.firstname);
+            ps.setString(2,registration.lastname);
+            ps.setString(3,registration.email);
+            ps.setString(4,registration.login);
+            ps.setString(5,registration.password);
+            ps.executeUpdate();
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkLogin(String login) {
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, this.username, this.password);
+
+            String query = "SELECT * FROM users Where login like ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,login);
+            ResultSet rs=ps.executeQuery();
+
+            if(rs.next())
+                return true;
+            else
+                return false;
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean checkToken(String token) {
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, this.username, this.password);
+
+            String query = "SELECT * FROM tokens Where token like ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,token);
+            ResultSet rs=ps.executeQuery();
+
+            if(rs.next())
+                return true;
+            else
+                return false;
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

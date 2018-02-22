@@ -63,7 +63,7 @@ public class Login {
         else{
             //  to do registration
             System.out.println("go on with registration");
-
+            mySQL.insertNewUserIntoDb(registration);
         }
           return "{}";
     }

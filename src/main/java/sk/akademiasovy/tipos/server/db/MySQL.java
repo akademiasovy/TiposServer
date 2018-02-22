@@ -60,4 +60,29 @@ public class MySQL {
             e.printStackTrace();
         }
     }
+
+    public boolean checkIfEmailOrLoginExist(String login, String email) {
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, this.username, this.password);
+
+            String query = "SELECT count(*) as num FROM users WHERE login like ? OR email like ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,login);
+            ps.setString(2,email);
+            ResultSet rs=ps.executeQuery();
+            System.out.println(ps);
+
+            rs.next();
+            if(rs.getInt("num")==0)
+                return false;  // email ani login neexistuju
+            else
+                return true;  // login alebo email uz existuje v databaze
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return true;
+    }
 }

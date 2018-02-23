@@ -25,7 +25,7 @@ public class Bets {
         boolean ret2 = mySQL.checkToken(ticket.token);
         if(ret1 && ret2) {
             System.out.println("Token and username are correct!");
-
+            mySQL.insertBets(ticket);
         }
         else
         {
@@ -34,4 +34,3 @@ public class Bets {
       return "{}";
     }
 }
-4ed

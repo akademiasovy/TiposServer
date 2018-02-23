@@ -1,6 +1,7 @@
 package sk.akademiasovy.tipos.server.db;
 
 import sk.akademiasovy.tipos.server.Registration;
+import sk.akademiasovy.tipos.server.Ticket;
 import sk.akademiasovy.tipos.server.User;
 
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
@@ -148,4 +149,40 @@ public class MySQL {
         }
         return false;
     }
+
+    public void insertBets(Ticket ticket) {
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, this.username, this.password);
+
+            String query = "INSERT INTO bets (idu) SELECT id FROM users where login like ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+
+            ps.setString(1,ticket.login);
+            System.out.println(ps);
+            ps.executeUpdate();
+            query="SELECT max(id) as max from bets where idu = (SELECT id FROM users where login like ?)";
+            ps = conn.prepareStatement(query);
+            ps.setString(1,ticket.login);
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            int id_bet=rs.getInt("max");
+            query = "INSERT INTO bet_details(idb,bet1, bet2, bet3, bet4,bet5) VALUES (?,?,?,?,?,?)";
+            ps= conn.prepareStatement(query);
+            ps.setInt(1,id_bet);
+            ps.setInt(2,ticket.bet1);
+            ps.setInt(3,ticket.bet2);
+            ps.setInt(4,ticket.bet3);
+            ps.setInt(5,ticket.bet4);
+            ps.setInt(6,ticket.bet5);
+            ps.executeUpdate();
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 }

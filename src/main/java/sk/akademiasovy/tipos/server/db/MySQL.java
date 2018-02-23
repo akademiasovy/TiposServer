@@ -163,7 +163,7 @@ public class MySQL {
             ps.executeUpdate();
             query="SELECT max(id) as max from bets where idu = (SELECT id FROM users where login like ?)";
             ps = conn.prepareStatement(query);
-            ps.setString(1,ticket.login);
+            ps.setString(1,ticket .login);
             System.out.println(ps);
             ResultSet rs = ps.executeQuery();
             rs.next();

@@ -27,11 +27,13 @@ public class Bets {
         if(ret1 && ret2) {
             System.out.println("Token and username are correct!");
             mySQL.insertBets(ticket);
+            return Response.status(201).build();
         }
         else
         {
             System.out.println("Invalid username or token");
+            return Response.status(401).build();
         }
-      return Response.status(201).build();
+     // return Response.status(201).build();
     }
 }

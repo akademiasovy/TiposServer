@@ -7,4 +7,17 @@ import javax.validation.constraints.*;
 
 public class TiposConfiguration extends Configuration {
     // TODO: implement service configuration
+
+      @NotNull
+      private String user;
+
+      private String password;
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

@@ -6,10 +6,7 @@ import sk.akademiasovy.tipos.server.Ticket;
 import sk.akademiasovy.tipos.server.User;
 
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,7 +228,9 @@ public class MySQL {
                 int bet3=rs.getInt("bet3");
                 int bet4=rs.getInt("bet4");
                 int bet5=rs.getInt("bet5");
-                Ticket ticket=new Ticket(bet1, bet2,bet3,bet4,bet5);
+                Date date=rs.getDate("date");
+                int id=rs.getInt("bets.id");
+                Ticket ticket=new Ticket(bet1, bet2,bet3,bet4,bet5,date,id);
                 list.add(ticket);
                 return list;
             }

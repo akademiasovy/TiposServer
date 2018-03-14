@@ -2,6 +2,8 @@ package sk.akademiasovy.tipos.server;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.Date;
+
 /**
  * Created by host on 22.2.2018.
  */
@@ -21,12 +23,26 @@ public class Ticket {
     @JsonProperty("login")
     public String login;
 
-    public Ticket(int bet1, int bet2, int bet3, int bet4, int bet5) {
+    private Date date;
+
+    public int getId() {
+        return id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    private int id;
+
+    public Ticket(int bet1, int bet2, int bet3, int bet4, int bet5, Date date, int id) {
         this.bet1 = bet1;
         this.bet2 = bet2;
         this.bet3 = bet3;
         this.bet4 = bet4;
         this.bet5 = bet5;
+        this.date=date;
+        this.id=id;
     }
 
     public Ticket() {

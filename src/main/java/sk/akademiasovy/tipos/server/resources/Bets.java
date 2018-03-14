@@ -1,5 +1,8 @@
 package sk.akademiasovy.tipos.server.resources;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.eclipse.jetty.util.DateCache;
 import sk.akademiasovy.tipos.server.Credentials;
 import sk.akademiasovy.tipos.server.Ticket;
@@ -49,7 +52,23 @@ public class Bets {
         if(ret1 && ret2) {
             List<Ticket> tickets;
             tickets= mySQL.getActualTickets(credentials.username);
-            Response.ok().build();
+            JSONArray obj=new JSONArray();
+            for(Ticket ticket:tickets) {
+                JSONObject tic=new JSONObject();
+                tic.put("bet1", ticket.bet1);
+                tic.put("bet2", ticket.bet2);
+                tic.put("bet3", ticket.bet3);
+                tic.put("bet4", ticket.bet4);
+                tic.put("bet5", ticket.bet5);
+                tic.put("username", credentials.username);
+                tic.put("id",ticket.getId());
+
+                obj.add(tic);
+            }
+            JSONObject result = new JSONObject();
+            result.put("tickets",obj);
+            System.out.println(result.toJSONString());
+            Response.ok(result.toString()).build();
         }
         else return Response.status(401).build();
 
